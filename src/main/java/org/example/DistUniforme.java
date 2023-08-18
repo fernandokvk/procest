@@ -1,5 +1,11 @@
 package org.example;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.DefaultXYDataset;
+
+import javax.swing.*;
 import java.util.Arrays;
 
 public class DistUniforme {
@@ -15,9 +21,9 @@ public class DistUniforme {
             boolean secondCoin = Math.random() > probCara;
 
             if (firstCoin && secondCoin) frequencias[2]++;
-            //nenhuma
+                //nenhuma
             else if (!firstCoin && !secondCoin) frequencias[0]++;
-            //apenas uma
+                //apenas uma
             else frequencias[1]++;
             //as duas
         }
@@ -31,13 +37,37 @@ public class DistUniforme {
 
     }
 
-    public static void A01_DistExponencial(double beta, int nums){
-        /*
-           a) definir um beta p/ f(t)
-           b) gere nums valores de uma uniforme [0, 1]
-           c) para esses valores (u) calcule F^(-1)(u)=t
-           d) com os valores de t calcule f(t)
-           e) faça um gráfico de f(t)
-         */
+    public static void A01_DistExponencial(double beta, int nums) {
+        double[] expValues = new double[nums];
+        double[] indexes = new double[nums];
+        DefaultXYDataset dataset = new DefaultXYDataset();
+
+        for (int i = 0; i < nums; i++) {
+            double value = Math.random();
+            double inverseFDA = beta * Math.log(1 - value); // Correção na fórmula
+            expValues[i] = inverseFDA;
+            indexes[i] = i + 1;
+        }
+
+
+        double[][] data = {indexes, expValues}; // Invertendo os eixos
+        dataset.addSeries("Exponential Distribution", data);
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Exponential Distribution",
+                "Índices",
+                "Valores",
+                dataset
+        );
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        JFrame frame = new JFrame("Gráfico de Distribuição Exponencial");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(chartPanel);
+        frame.pack();
+        frame.setVisible(true);
     }
+
+
 }
