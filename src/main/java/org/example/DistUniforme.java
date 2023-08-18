@@ -44,16 +44,18 @@ public class DistUniforme {
 
         for (int i = 0; i < nums; i++) {
             double value = Math.random();
-            double inverseFDA = beta * Math.log(1 - value); // Correção na fórmula
-            expValues[i] = inverseFDA;
-            indexes[i] = i + 1;
+            double t = -Math.log(1 - value) / beta; // Cálculo correto de t
+            double ft = beta * Math.exp(-beta * t); // Cálculo correto de f(t)
+            expValues[i] = ft;
+            indexes[i] = t;
         }
 
 
         double[][] data = {indexes, expValues}; // Invertendo os eixos
+//        double[][] data = {expValues, indexes}; // Invertendo os eixos
         dataset.addSeries("Exponential Distribution", data);
 
-        JFreeChart chart = ChartFactory.createXYLineChart(
+        JFreeChart chart = ChartFactory.createScatterPlot(
                 "Exponential Distribution",
                 "Índices",
                 "Valores",
