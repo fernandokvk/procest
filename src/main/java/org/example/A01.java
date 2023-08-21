@@ -42,15 +42,16 @@ public class A01 {
 
 
     public static void _distExponencial(int nums) {
-        double[] betaValues = {0.5, 1, 1.5, Math.E};
+//        double[] betaValues = {0.5, 1, 1.5, Math.E};
+        double[] betaValues = {Math.E};
         DefaultXYDataset dataset = new DefaultXYDataset();
 
         for (int j = 0; j < betaValues.length; j++) {
             double[][] data = new double[2][nums];
             for (int i = 0; i < nums; i++) {
                 double value = Math.random();
-                double t = -Math.log(1 - value) / betaValues[j];
-                double ft = betaValues[j] * Math.exp(-betaValues[j] * t);
+                double t = - (betaValues[j] *  Math.log(1 - value));
+                double ft = (1 /betaValues[j]) * Math.exp(-t / betaValues[j]);
                 data[0][i] = t;
                 data[1][i] = ft;
             }
@@ -81,7 +82,7 @@ public class A01 {
         plot.setRenderer(renderer);
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(1200, 800));
+        chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         JFrame frame = new JFrame("Exponential Distribution Chart");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(chartPanel);
